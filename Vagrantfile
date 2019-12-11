@@ -163,6 +163,23 @@ Vagrant.configure("2") do |config|
         virtualbox.cpus = 2
       end
 
+      dev.vm.provider :aws do |aws,override|
+        aws.keypair_name = ENV['STAGE_KEYPAIR_NAME']
+        aws.ami = ENV['STAGE_AMI']
+        aws.instance_type = ENV['STAGE_INSTANCE_TYPE']
+        aws.region = ENV['STAGE_REGION']
+        aws.subnet_id = ENV['STAGE_SUBNET_ID']
+        aws.security_groups = ENV['STAGE_SECURITY_GROUPS']
+        aws.associate_public_ip = true
+        aws.iam_instance_profile_name = ENV['STAGE_INSTANCE_PROFILE_NAME']
+        aws.aws_dir = ENV['HOME'] + "/.aws/"
+        aws.aws_profile = "#{ENV['STAGE_AWS_PROFILE']}"
+
+        override.ssh.username = "ubuntu"
+  #			override.ssh.private_key_path = ENV['STAGE_SSH_PRIVATE_KEY_PATH']
+      end
+
+
     end
   end
 
